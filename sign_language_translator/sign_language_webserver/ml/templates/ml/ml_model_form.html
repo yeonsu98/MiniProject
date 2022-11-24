@@ -1,0 +1,14 @@
+{% comment %} {% extends "layout.html" %} {% endcomment %}
+{% block title %} ML Model 등록 {% endblock %}
+{% block content %}
+    <h1> ML Model 등록</h1>
+    <form action="" method="post" enctype="multipart/form-data">
+        {% csrf_token %}
+        <table>
+            {{form.as_table}}
+        </table>
+        <input name="files" type="file" multiple="multiple"><br><br>
+        <input type="submit" value="등록">
+
+    </form>
+{% endblock %}

@@ -1,0 +1,18 @@
+{% load static %}
+<link rel="stylesheet" href="{% static 'language/style.css' %}">
+    
+
+{% for result  in resultList %}
+    <div>
+        <img src="{{ result.image.url }}" width="500" height="500">
+    </div>
+    <div>
+      예측 결과 : {{ result.result }}
+    </div>
+    <div>
+      정답  : {{ result.answer }}
+    </div>
+    <div>
+      결과 : {{ result.ret }}
+    </div>
+{% endfor %}

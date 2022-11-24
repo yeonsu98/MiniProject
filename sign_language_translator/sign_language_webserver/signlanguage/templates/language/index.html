@@ -1,0 +1,79 @@
+<script src="https://ajax.googleapis.com/ajax/libs/jquery/1.8.3/jquery.min.js"></script>
+<script>
+    function addFile(){
+        html = '<hr><fieldset><input class="btn btn-outline-primary" name="files" type="file" multiple="multiple"><input type="text" name="answer[]" class="mt-4 form-control form-control-alternative" placeholder="정답"></fieldset>'        
+        $('#file').append(html)
+    }
+</script>
+
+{% extends '../layouts/base-fullscreen.html' %}
+
+{% block title %} 수어 이미지 분석 {% endblock title %}
+
+<!-- Specific CSS goes HERE -->
+{% block stylesheets %}
+<style>
+  img {
+    width:100%;
+    height:100%;
+  }
+</style>
+{% endblock stylesheets %}
+
+{% block content %}
+
+  <div class="header bg-gradient-primary py-7 py-lg-8">
+    <div class="container">
+      <div class="header-body text-center mb-7">
+        <div class="row justify-content-center">
+          <div class="col-lg-5 col-md-6">
+            <h1 class="text-white">
+              수어 이미지 분석<br>
+              {% if selectedModel %} 분석 모델 <br> : {{ selectedModel }}{% endif %}
+   
+            </h1>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+
+
+    <!-- Page content -->
+    <div class="container mt--8 pb-5">
+      <div class="row justify-content-center">
+        <div class="col-lg-5 col-md-7">
+              <form action="upload" method="post" enctype="multipart/form-data">
+                  
+                <div class="card bg-secondary border-0 mb-2">
+                  <div class="card-body px-lg-5 py-lg-5">
+                    <div class="form-group mb-3">
+                        {% csrf_token %}
+                        <legend><h1>파일 업로드</h1></legend>
+
+                        <span id="file">
+                          <fieldset>
+                              <input class="btn btn-outline-primary" name="files" type="file" multiple="multiple">
+                              <input type="text" name="answer[]" class="mt-4 form-control form-control-alternative" placeholder="정답">
+                          </fieldset>
+                        </span>
+
+                        <button class="btn btn-outline-primary mt-4" onclick="addFile()" type="button"> <i class="ni ni-fat-add">파일 추가 </i></button>
+                    
+                    </div>
+                  
+                  </div>
+                </div>
+                <div class="text-center">
+                  <input type="submit" class="btn btn-primary my-4" value="업로드">
+                </div>
+              </form>
+                
+          <!-- <div class="text-center">
+            <input type="submit" class="btn btn-primary my-4" value="업로드">
+          </div> -->
+        </div>
+      </div>
+    </div>
+
+{% endblock content %}

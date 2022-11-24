@@ -1,0 +1,73 @@
+{% extends "admin/change_list.html" %}
+{% load static %}
+
+<!-- admin에서 EVALUTAION html인데 필요없음... 삭제해도 됨... -->
+<!-- Override extrahead to add Chart.js -->
+{% comment %} {% block extrahead %}
+{{ block.super }}
+<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/Chart.js/2.8.0/Chart.min.css" />
+<script src="https://cdnjs.cloudflare.com/ajax/libs/Chart.js/2.8.0/Chart.bundle.min.js"></script>
+<script>
+document.addEventListener('DOMContentLoaded', () => {
+  const ctx = document.getElementById('myChart').getContext('2d');
+
+  // Sample data
+  const chartData = {{ chart_data | safe }}; 
+
+  var arr = [];
+  var idx = 0;
+  chartData.forEach((d)=>{
+    arr[idx]=d.ml_model;
+    idx=idx+1;
+  })
+
+  console.log(arr)
+  // Parse the dates to JS
+  chartData.forEach((d) => {
+    d.x = d.ml_model;
+    d.y = (d.success*100)/d.total;
+  });
+
+  const chart = new Chart(ctx, {
+    type: 'bar',
+    data: {
+      datasets: [
+        {
+          label: 'accuracy',
+          data: chartData, 
+          backgroundColor: 'rgba(220,20,20,0.5)',
+        },
+      ],
+    },
+
+    options: {
+      responsive: true,
+      scales: {
+        xAxes: [
+          {//////////////////////////
+            type: 'category', 
+            labels: arr,
+          },//////////////////////////
+        ],
+        yAxes: [
+          {
+            ticks: {
+              beginAtZero: true,
+            },
+          },
+        ],
+      },
+    },
+  });
+});
+</script>
+{% endblock %}
+
+{% block content %}
+<!-- Render our chart -->
+<div style="width: 80%;">
+  <canvas style="margin-bottom: 30px; width: 60%; height: 50%;" id="myChart"></canvas>
+</div>
+<!-- Render the rest of the ChangeList view -->
+{{ block.super }}
+{% endblock %} {% endcomment %}

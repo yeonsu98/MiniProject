@@ -1,0 +1,28 @@
+{% load static %}
+<link rel="stylesheet" href="/static/language/style.css">
+<script src="https://ajax.googleapis.com/ajax/libs/jquery/1.8.3/jquery.min.js"></script>
+
+<script>
+    var idNum = 0;
+    function addFile(){
+        html = '<span id="file_'+idNum+'"><fieldset><legend><h1>파일 업로드</h1></legend><input name="files" multiple="multiple" type="file"></fieldset><div> 정답 : <input name="answer[]" type="text"></div></span>';
+        idNum++;
+        
+        $('#file').append(html)
+    }
+</script>
+
+<form action="upload" method="post" enctype="multipart/form-data">
+    {% csrf_token %}
+    <span id="file">
+        <fieldset>
+            <legend><h1>파일 업로드</h1></legend>
+            <input name="files" type="file" multiple="multiple">
+        </fieldset>
+        <div>
+            정답 : <input name="answer[]" type="text">
+        </div>
+    </span>
+    <button onclick="addFile()" type="button">파일 추가 </button>
+    <div><input type="file" value="파일선택"></div>
+</form>
